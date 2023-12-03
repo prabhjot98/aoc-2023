@@ -18,11 +18,18 @@ type Round struct {
 	Blue_cubes  int
 }
 
+type Color string
+
 const (
-	Red   = "red"
-	Green = "green"
-	Blue  = "blue"
+	Red   Color = "red"
+	Green       = "green"
+	Blue        = "blue"
 )
+
+type Pair struct {
+	count int
+	color Color
+}
 
 func parseGameNumber(line string) (int, string) {
 	tokens := strings.Split(line, ":")
@@ -49,6 +56,7 @@ func ParseRound(str string) Round {
 	blue_cubes := 0
 
 	for _, token := range tokens {
+
 		count, color := ParseToken(token)
 		switch color {
 		case Red:
@@ -62,11 +70,11 @@ func ParseRound(str string) Round {
 	return Round{red_cubes, green_cubes, blue_cubes}
 }
 
-func ParseToken(str string) (int, string) {
+func ParseToken(str string) (int, Color) {
 	tokens := strings.Split(str, " ")[1:]
 	count, _ := strconv.Atoi(tokens[0]) // this wont error either ;)
 	color := tokens[1]
-	return count, color
+	return count, Color(color)
 }
 
 func LineToGame(line string) Game {
